@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal Pola Bilangan - Kelas 8</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for glowing effects and transitions */
+        .glow-on-hover {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-on-hover:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+        .input-correct {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+        }
+        .input-incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .feedback-correct {
+            color: #22c55e;
+        }
+        .feedback-incorrect {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <!-- Main Card -->
+        <div id="main-card" class="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl p-6 sm:p-8 transition-all duration-500">
+
+            <!-- Welcome Section -->
+            <div id="welcome-section">
+                <div class="text-center mb-6">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-blue-400">Latihan Soal Matematika</h1>
+                    <p class="text-slate-400 mt-2 text-lg">Topik: Pola Bilangan (Kelas 8)</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="nama" class="block mb-2 text-sm font-medium text-slate-300">Nama Lengkap</label>
+                        <input type="text" id="nama" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Masukkan namamu...">
+                    </div>
+                    <div>
+                        <label for="kelas" class="block mb-2 text-sm font-medium text-slate-300">Kelas</label>
+                        <input type="text" id="kelas" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Contoh: 8A">
+                    </div>
+                    <button id="start-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 glow-on-hover">
+                        Mulai Latihan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Section (hidden by default) -->
+            <div id="quiz-section" class="hidden">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-blue-400">Selamat Mengerjakan!</h2>
+                        <p id="user-info" class="text-slate-400"></p>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil-square text-blue-500" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                </div>
+                <div id="questions-container" class="space-y-6">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+                <button id="submit-btn" class="mt-8 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 glow-on-hover">
+                    Periksa Jawaban
+                </button>
+            </div>
+            
+            <!-- Result Section (hidden by default) -->
+            <div id="result-section" class="hidden text-center">
+                 <h2 class="text-3xl font-bold text-blue-400 mb-4">Hasil Latihan</h2>
+                 <p id="score-text" class="text-2xl font-medium mb-2"></p>
+                 <p id="feedback-message" class="text-lg text-slate-300 mb-6"></p>
+                 <div class="flex flex-col sm:flex-row sm:justify-center sm:space-y-2 sm:space-y-0 sm:space-x-4">
+                     <button id="retry-btn" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 glow-on-hover">
+                        Coba Lagi
+                     </button>
+                     <a id="send-result-btn" href="#" class="w-full sm:w-auto inline-block text-center bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 glow-on-hover">
+                        Kirim Hasil ke Guru
+                     </a>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- DOM ELEMENTS ---
+        const welcomeSection = document.getElementById('welcome-section');
+        const quizSection = document.getElementById('quiz-section');
+        const resultSection = document.getElementById('result-section');
+
+        const nameInput = document.getElementById('nama');
+        const classInput = document.getElementById('kelas');
+        const startBtn = document.getElementById('start-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        
+        const userInfo = document.getElementById('user-info');
+        const questionsContainer = document.getElementById('questions-container');
+        const scoreText = document.getElementById('score-text');
+        const feedbackMessage = document.getElementById('feedback-message');
+        
+        // --- QUIZ DATA ---
+        const questions = [
+            {
+                question: "Tentukan <strong>dua suku</strong> berikutnya dari pola bilangan: 2, 5, 8, 11, ...",
+                answer: "14,17",
+                explanation: "Pola ini adalah barisan aritmetika dengan beda +3. Suku berikutnya adalah 11 + 3 = 14, dan 14 + 3 = 17."
+            },
+            {
+                question: "Tentukan suku berikutnya dari pola bilangan: 90, 85, 80, 75, ...",
+                answer: "70",
+                explanation: "Pola ini adalah barisan aritmetika dengan beda -5. Suku berikutnya adalah 75 - 5 = 70."
+            },
+            {
+                question: "Tentukan suku berikutnya dari pola bilangan: 3, 6, 12, 24, ...",
+                answer: "48",
+                explanation: "Pola ini adalah barisan geometri dengan rasio x2. Suku berikutnya adalah 24 x 2 = 48."
+            },
+            {
+                question: "Tentukan suku berikutnya dari pola bilangan persegi: 1, 4, 9, 16, ...",
+                answer: "25",
+                explanation: "Pola ini adalah kuadrat dari bilangan asli berurutan (1², 2², 3², 4²). Suku berikutnya adalah 5² = 25."
+            },
+            {
+                question: "Tentukan suku berikutnya dari pola bilangan Fibonacci: 1, 1, 2, 3, 5, 8, ...",
+                answer: "13",
+                explanation: "Setiap suku adalah jumlah dari dua suku sebelumnya. Suku berikutnya adalah 5 + 8 = 13."
+            }
+        ];
+
+        // --- FUNCTIONS ---
+        function startQuiz() {
+            const name = nameInput.value.trim();
+            const className = classInput.value.trim();
+
+            if (name === '' || className === '') {
+                alert('Nama dan Kelas harus diisi terlebih dahulu!');
+                return;
+            }
+
+            userInfo.textContent = `${name} - Kelas ${className}`;
+            
+            displayQuestions();
+
+            welcomeSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+        }
+
+        function displayQuestions() {
+            questionsContainer.innerHTML = ''; // Clear previous questions
+            questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'bg-slate-700 p-4 rounded-lg';
+                questionElement.innerHTML = `
+                    <p class="mb-3 text-slate-300">
+                        <span class="font-bold text-blue-400">Soal ${index + 1}:</span> ${q.question}
+                    </p>
+                    <input type="text" id="answer-${index}" class="w-full bg-slate-600 border border-slate-500 rounded-lg p-2.5 text-white focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Jawabanmu...">
+                    <div id="feedback-${index}" class="mt-2 text-sm font-medium"></div>
+                `;
+                questionsContainer.appendChild(questionElement);
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            const totalQuestions = questions.length;
+
+            questions.forEach((q, index) => {
+                const userAnswer = document.getElementById(`answer-${index}`).value.trim().replace(/\s/g, ''); // remove spaces
+                const feedbackEl = document.getElementById(`feedback-${index}`);
+                const inputEl = document.getElementById(`answer-${index}`);
+
+                if (userAnswer.toLowerCase() === q.answer.toLowerCase()) {
+                    score++;
+                    inputEl.classList.add('input-correct');
+                    feedbackEl.innerHTML = `<span class="feedback-correct">Benar! &#10003;</span>`;
+                } else {
+                    inputEl.classList.add('input-incorrect');
+                    feedbackEl.innerHTML = `<span class="feedback-incorrect">Salah.</span> <span class="text-slate-400">${q.explanation}</span>`;
+                }
+                inputEl.disabled = true; // Disable input after checking
+            });
+            
+            showResults(score, totalQuestions);
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        
+        function showResults(score, total) {
+            scoreText.textContent = `Skor Akhir Kamu: ${score} / ${total}`;
+            
+            const percentage = (score / total) * 100;
+            if (percentage === 100) {
+                feedbackMessage.textContent = "Luar biasa! Semua jawabanmu benar. Kamu sangat menguasai materi ini!";
+            } else if (percentage >= 75) {
+                feedbackMessage.textContent = "Kerja bagus! Pemahamanmu sudah sangat baik.";
+            } else if (percentage >= 50) {
+                feedbackMessage.textContent = "Cukup bagus. Terus berlatih agar lebih paham lagi, ya!";
+            } else {
+                feedbackMessage.textContent = "Jangan menyerah! Coba pelajari lagi materinya dan ulangi latihan ini.";
+            }
+
+            // Create mailto link
+            const teacherEmail = 'asrullah79@guru.smp.belajar.id';
+            const studentName = nameInput.value.trim();
+            const studentClass = classInput.value.trim();
+
+            const subject = `Hasil Latihan Pola Bilangan - ${studentName}`;
+            const body = `Berikut adalah hasil pengerjaan latihan soal Pola Bilangan:\n\nNama: ${studentName}\nKelas: ${studentClass}\nSkor: ${score} dari ${total} soal benar.\n\nTerima kasih.`;
+            
+            const sendResultBtn = document.getElementById('send-result-btn');
+            sendResultBtn.href = `mailto:${teacherEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            quizSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+        }
+        
+        function resetQuiz() {
+            // Easiest way to reset the state is to reload the page
+            window.location.reload();
+        }
+
+        // --- EVENT LISTENERS ---
+        startBtn.addEventListener('click', startQuiz);
+        submitBtn.addEventListener('click', checkAnswers);
+        retryBtn.addEventListener('click', resetQuiz);
+
+    </script>
+</body>
+</html>
+
